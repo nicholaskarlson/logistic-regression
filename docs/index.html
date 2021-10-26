@@ -1,0 +1,3430 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Logistic Regression</title>
+
+  <meta property="description" itemprop="description" content="This webpage has information on logistic regression."/>
+
+
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Logistic Regression"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This webpage has information on logistic regression."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="Logistic Regression"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Logistic Regression"/>
+  <meta property="twitter:description" content="This webpage has information on logistic regression."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","site"]}},"value":[{"type":"character","attributes":{},"value":["Logistic Regression"]},{"type":"character","attributes":{},"value":["This webpage has information on logistic regression.\n"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
+
+  <script type="application/javascript">
+
+    window.headroom_prevent_pin = false;
+
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        tolerance: 5,
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  /* Theme (user-documented overrideables for nav appearance) */
+
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #0F2E3D;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .distill-site-nav a:hover {
+    color: white;
+  }
+
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+
+  .distill-site-header {
+
+  }
+
+  .distill-site-footer {
+
+  }
+
+
+  /* Site Header */
+
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+
+
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+
+  .distill-site-header .title {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .distill-site-header .logo {
+    padding: 0;
+  }
+
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+
+
+
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+
+
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  /* Site Footer */
+
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Headroom */
+
+  d-title {
+    padding-top: 6rem;
+  }
+
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+
+  .headroom--unpinned {
+    top: -100px;
+  }
+
+  .headroom--pinned {
+    top: 0;
+  }
+
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+
+  </style>
+
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+  <script type="application/javascript">
+
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+
+  function createFuseIndex() {
+
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+
+    createFuseIndex()
+      .then(function(fuse) {
+
+        // make search box visible
+        searchEl.classList.remove('hidden');
+
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  });
+
+  </script>
+
+  <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
+
+  /* Algolioa Autocomplete */
+
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  </style>
+
+
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Logistic Regression","description":"This webpage has information on logistic regression.","authors":[]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">Logistic Regression</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Logistic Regression</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>This webpage has information on logistic regression.</p></p>
+</div>
+
+
+<div class="d-article">
+<h1 id="logistic-regression">Logistic Regression</h1>
+<p><strong>Note to current readers:</strong> This chapter is slightly less tested than previous chapters. Please do not hesitate to report any errors, or suggest sections that need better explanation! Also, as a result, this material is more likely to receive edits.</p>
+<p>After reading this chapter you will be able to:</p>
+<ul>
+<li>Understand how generalized linear models are a generalization of ordinary linear models.</li>
+<li>Use logistic regression to model a binary response.</li>
+<li>Apply concepts learned for ordinary linear models to logistic regression.</li>
+<li>Use logistic regression to perform classification.</li>
+</ul>
+<p>So far we have only considered models for numeric response variables. What about response variables that only take integer values? What about a response variable that is categorical? Can we use linear models in these situations? Yes! The model that we have been using, which we will call <em>ordinary linear regression</em>, is actually a specific case of the more general, <em>generalized linear model</em>. (Aren’t statisticians great at naming things?)</p>
+<h2 id="generalized-linear-models">Generalized Linear Models</h2>
+<p>So far, we’ve had response variables that, conditioned on the predictors, were modeled using a normal distribution with a mean that is some linear combination of the predictors. This linear combination is what made a linear model “linear.”</p>
+<p><span class="math display">\[
+Y \mid {\bf X} = {\bf x} \sim N(\beta_0 + \beta_1x_1 + \ldots + \beta_{p - 1}x_{p - 1}, \ \sigma^2)
+\]</span></p>
+<p>Now we’ll allow for two modifications of this situation, which will let us use linear models in many more situations. Instead of using a normal distribution for the response conditioned on the predictors, we’ll allow for other distributions. Also, instead of the conditional mean being a linear combination of the predictors, it can be some function of a linear combination of the predictors.</p>
+<p>In <em>general</em>, a generalized linear model has three parts:</p>
+<ul>
+<li>A <strong>distribution</strong> of the response conditioned on the predictors. (Technically this distribution needs to be from the <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank">exponential family</a> of distributions.)</li>
+<li>A <strong>linear combination</strong> of the <span class="math inline">\(p - 1\)</span> predictors, <span class="math inline">\(\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_{p - 1} x_{p - 1}\)</span>, which we write as <span class="math inline">\(\eta({\bf x})\)</span>. That is,</li>
+</ul>
+<p><span class="math display">\[\eta({\bf x}) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots  + \beta_{p - 1} x_{p - 1}\]</span></p>
+<ul>
+<li>A <strong>link</strong> function, <span class="math inline">\(g()\)</span>, that defines how <span class="math inline">\(\eta({\bf x})\)</span>, the linear combination of the predictors, is related to the mean of the response conditioned on the predictors, <span class="math inline">\(\text{E}[Y \mid {\bf X} = {\bf x}]\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+\eta({\bf x}) = g\left(\text{E}[Y \mid {\bf X} = {\bf x}]\right).
+\]</span></p>
+<p>The following table summarizes three examples of a generalized linear model:</p>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 23%" />
+<col style="width: 26%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Linear Regression</th>
+<th>Poisson Regression</th>
+<th>Logistic Regression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y \mid {\bf X} = {\bf x}\)</span></td>
+<td><span class="math inline">\(N(\mu({\bf x}), \sigma^2)\)</span></td>
+<td><span class="math inline">\(\text{Pois}(\lambda({\bf x}))\)</span></td>
+<td><span class="math inline">\(\text{Bern}(p({\bf x}))\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Distribution Name</strong></td>
+<td>Normal</td>
+<td>Poisson</td>
+<td>Bernoulli (Binomial)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\text{E}[Y \mid {\bf X} = {\bf x}]\)</span></td>
+<td><span class="math inline">\(\mu({\bf x})\)</span></td>
+<td><span class="math inline">\(\lambda({\bf x})\)</span></td>
+<td><span class="math inline">\(p({\bf x})\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Support</strong></td>
+<td>Real: <span class="math inline">\((-\infty, \infty)\)</span></td>
+<td>Integer: <span class="math inline">\(0, 1, 2, \ldots\)</span></td>
+<td>Integer: <span class="math inline">\(0, 1\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Usage</strong></td>
+<td>Numeric Data</td>
+<td>Count (Integer) Data</td>
+<td>Binary (Class ) Data</td>
+</tr>
+<tr class="even">
+<td><strong>Link Name</strong></td>
+<td>Identity</td>
+<td>Log</td>
+<td>Logit</td>
+</tr>
+<tr class="odd">
+<td><strong>Link Function</strong></td>
+<td><span class="math inline">\(\eta({\bf x}) = \mu({\bf x})\)</span></td>
+<td><span class="math inline">\(\eta({\bf x}) = \log(\lambda({\bf x}))\)</span></td>
+<td><span class="math inline">\(\eta({\bf x}) = \log \left(\frac{p({\bf x})}{1 - p({\bf x})} \right)\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Mean Function</strong></td>
+<td><span class="math inline">\(\mu({\bf x}) = \eta({\bf x})\)</span></td>
+<td><span class="math inline">\(\lambda({\bf x}) = e^{\eta({\bf x})}\)</span></td>
+<td><span class="math inline">\(p({\bf x}) = \frac{e^{\eta({\bf x})}}{1 + e^{\eta({\bf x})}} = \frac{1}{1 + e^{-\eta({\bf x})}}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Like ordinary linear regression, we will seek to “fit” the model by estimating the <span class="math inline">\(\beta\)</span> parameters. To do so, we will use the method of maximum likelihood.</p>
+<p>Note that a Bernoulli distribution is a specific case of a binomial distribution where the <span class="math inline">\(n\)</span> parameter of a binomial is <span class="math inline">\(1\)</span>. Binomial regression is also possible, but we’ll focus on the much more popular Bernoulli case.</p>
+<p>So, in general, GLMs relate the mean of the response to a linear combination of the predictors, <span class="math inline">\(\eta({\bf x})\)</span>, through the use of a link function, <span class="math inline">\(g()\)</span>. That is,</p>
+<p><span class="math display">\[
+\eta({\bf x}) = g\left(\text{E}[Y \mid {\bf X} = {\bf x}]\right).
+\]</span></p>
+<p>The mean is then</p>
+<p><span class="math display">\[
+\text{E}[Y \mid {\bf X} = {\bf x}] = g^{-1}(\eta({\bf x})).
+\]</span></p>
+<h2 id="binary-response">Binary Response</h2>
+<p>To illustrate the use of a GLM we’ll focus on the case of binary responses variable coded using <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. In practice, these <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>s will code for two classes such as yes/no, cat/dog, sick/healthy, etc.</p>
+<p><span class="math display">\[
+Y = 
+\begin{cases} 
+      1 &amp; \text{yes} \\
+      0 &amp; \text{no} 
+\end{cases}
+\]</span></p>
+<p>First, we define some notation that we will use throughout.</p>
+<p><span class="math display">\[
+p({\bf x}) = P[Y = 1 \mid {\bf X} = {\bf x}]
+\]</span></p>
+<p>With a binary (Bernoulli) response, we’ll mostly focus on the case when <span class="math inline">\(Y = 1\)</span>, since with only two possibilities, it is trivial to obtain probabilities when <span class="math inline">\(Y = 0\)</span>.</p>
+<p><span class="math display">\[
+P[Y = 0 \mid {\bf X} = {\bf x}] + P[Y = 1 \mid {\bf X} = {\bf x}] = 1
+\]</span></p>
+<p><span class="math display">\[
+P[Y = 0 \mid {\bf X} = {\bf x}] = 1 - p({\bf x})
+\]</span></p>
+<p>We now define the <strong>logistic regression</strong> model.</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = \beta_0 + \beta_1 x_1 + \ldots  + \beta_{p - 1} x_{p - 1}
+\]</span></p>
+<p>Immediately we notice some similarities to ordinary linear regression, in particular, the right hand side. This is our usual linear combination of the predictors. We have our usual <span class="math inline">\(p - 1\)</span> predictors for a total of <span class="math inline">\(p\)</span> <span class="math inline">\(\beta\)</span> parameters. (Note, many more machine learning focused texts will use <span class="math inline">\(p\)</span> as the number of predictors. This is an arbitrary choice, but you should be aware of it.)</p>
+<p>The left hand side is called the <strong>log odds</strong>, which is the log of the odds. The odds are the probability for a positive event <span class="math inline">\((Y = 1)\)</span> divided by the probability of a negative event <span class="math inline">\((Y = 0)\)</span>. So when the odds are <span class="math inline">\(1\)</span>, the two events have equal probability. Odds greater than <span class="math inline">\(1\)</span> favor a positive event. The opposite is true when the odds are less than <span class="math inline">\(1\)</span>.</p>
+<p><span class="math display">\[
+\frac{p({\bf x})}{1 - p({\bf x})} = \frac{P[Y = 1 \mid {\bf X} = {\bf x}]}{P[Y = 0 \mid {\bf X} = {\bf x}]}
+\]</span></p>
+<p>Essentially, the log odds are the <a href="https://en.wikipedia.org/wiki/Logit" target="_blank">logit</a> transform applied to <span class="math inline">\(p({\bf x})\)</span>.</p>
+<p><span class="math display">\[
+\text{logit}(\xi) = \log\left(\frac{\xi}{1 - \xi}\right)
+\]</span></p>
+<p>It will also be useful to define the inverse logit, otherwise known as the “logistic” or <a href="https://en.wikipedia.org/wiki/Sigmoid_function" target="_blank">sigmoid</a> function.</p>
+<p><span class="math display">\[
+\text{logit}^{-1}(\xi) = \frac{e^\xi}{1 + e^{\xi}} = \frac{1}{1 + e^{-\xi}}
+\]</span></p>
+<p>Note that for <span class="math inline">\(x \in (-\infty, \infty))\)</span>, this function outputs values between 0 and 1.</p>
+<p>Students often ask, where is the error term? The answer is that its something that is specific to the normal model. First notice that the model with the error term,</p>
+<p><span class="math display">\[
+Y = \beta_0 + \beta_1x_1 + \ldots + \beta_qx_q + \epsilon, \ \ \epsilon \sim N(0, \sigma^2)
+\]</span> can instead be written as</p>
+<p><span class="math display">\[
+Y \mid {\bf X} = {\bf x} \sim N(\beta_0 + \beta_1x_1 + \ldots + \beta_qx_q, \ \sigma^2).
+\]</span></p>
+<p>While our main focus is on estimating the mean, <span class="math inline">\(\beta_0 + \beta_1x_1 + \ldots + \beta_qx_q\)</span>, there is also another parameter, <span class="math inline">\(\sigma^2\)</span> which needs to be estimated. This is the result of the normal distribution having two parameters.</p>
+<p>With logistic regression, which uses the Bernoulli distribution, we only need to estimate the Bernoulli distribution’s single parameter <span class="math inline">\(p({\bf x})\)</span>, which happens to be its mean.</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = \beta_0 + \beta_1 x_1 + \ldots  + \beta_{q} x_{q}
+\]</span></p>
+<p>So even though we introduced ordinary linear regression first, in some ways, logistic regression is actually simpler.</p>
+<p>Note that applying the inverse logit transformation allow us to obtain an expression for <span class="math inline">\(p({\bf x})\)</span>.</p>
+<p><span class="math display">\[
+p({\bf x}) = P[Y = 1 \mid {\bf X} = {\bf x}] = \frac{e^{\beta_0 + \beta_1 x_{1} + \cdots + \beta_{p-1} x_{(p-1)}}}{1 + e^{\beta_0 + \beta_1 x_{1} + \cdots + \beta_{p-1} x_{(p-1)}}}
+\]</span></p>
+<h3 id="fitting-logistic-regression">Fitting Logistic Regression</h3>
+<p>With <span class="math inline">\(n\)</span> observations, we write the model indexed with <span class="math inline">\(i\)</span> to note that it is being applied to each observation.</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x_i})}{1 - p({\bf x_i)})}\right) = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}
+\]</span></p>
+<p>We can apply the inverse logit transformation to obtain <span class="math inline">\(P[Y_i = 1 \mid {\bf X_i} = {\bf x_i}]\)</span> for each observation. Since these are probabilities, it’s good that we used a function that returns values between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.</p>
+<p><span class="math display">\[
+p({\bf x_i}) = P[Y_i = 1 \mid {\bf X_i} = {\bf x_i}] = \frac{e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}}}{1 + e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}}}
+\]</span></p>
+<p><span class="math display">\[
+1 - p({\bf x_i}) = P[Y_i = 0 \mid {\bf X} = {\bf x_i}] = \frac{1}{1 + e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}}}
+\]</span></p>
+<p>To “fit” this model, that is estimate the <span class="math inline">\(\beta\)</span> parameters, we will use maximum likelihood.</p>
+<p><span class="math display">\[
+\boldsymbol{{\beta}} = [\beta_0, \beta_1, \beta_2, \beta_3, \ldots, \beta_{p - 1}]
+\]</span></p>
+<p>We first write the likelihood given the observed data.</p>
+<p><span class="math display">\[
+L(\boldsymbol{{\beta}}) = \prod_{i = 1}^{n} P[Y_i = y_i \mid {\bf X_i} = {\bf x_i}]
+\]</span></p>
+<p>This is already technically a function of the <span class="math inline">\(\beta\)</span> parameters, but we’ll do some rearrangement to make this more explicit.</p>
+<p><span class="math display">\[
+L(\boldsymbol{{\beta}}) = \prod_{i = 1}^{n} p({\bf x_i})^{y_i} (1 - p({\bf x_i}))^{(1 - y_i)}
+\]</span></p>
+<p><span class="math display">\[
+L(\boldsymbol{{\beta}}) = \prod_{i : y_i = 1}^{n} p({\bf x_i}) \prod_{j : y_j = 0}^{n} (1 - p({\bf x_j}))
+\]</span></p>
+<p><span class="math display">\[
+L(\boldsymbol{{\beta}}) = \prod_{i : y_i = 1}^{} \frac{e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}}}{1 + e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p-1} x_{i(p-1)}}} \prod_{j : y_j = 0}^{} \frac{1}{1 + e^{\beta_0 + \beta_1 x_{j1} + \cdots + \beta_{p-1} x_{j(p-1)}}}
+\]</span></p>
+<p>Unfortunately, unlike ordinary linear regression, there is no analytical solution for this maximization problem. Instead, it will need to be solved numerically. Fortunately, <code>R</code> will take care of this for us using an iteratively reweighted least squares algorithm. (We’ll leave the details for a machine learning or optimization course, which would likely also discuss alternative optimization strategies.)</p>
+<h3 id="fitting-issues">Fitting Issues</h3>
+<p>We should note that, if there exists some <span class="math inline">\(\beta^*\)</span> such that</p>
+<p><span class="math display">\[
+{\bf x_i}^{\top} \boldsymbol{{\beta}^*} &gt; 0 \implies y_i = 1
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+{\bf x_i}^{\top} \boldsymbol{{\beta}^*} &lt; 0 \implies y_i = 0
+\]</span></p>
+<p>for all observations, then the MLE is not unique. Such data is said to be separable.</p>
+<p>This, and similar numeric issues related to estimated probabilities near 0 or 1, will return a warning in <code>R</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>When this happens, the model is still “fit,” but there are consequences, namely, the estimated coefficients are highly suspect. This is an issue when then trying to interpret the model. When this happens, the model will often still be useful for creating a classifier, which will be discussed later. However, it is still subject to the usual evaluations for classifiers to determine how well it is performing. For details, see <a href="https://link.springer.com/content/pdf/10.1007/978-1-4757-2719-7_7.pdf" target="_blank">Modern Applied Statistics with S-PLUS, Chapter 7</a>.</p>
+<h3 id="simulation-examples">Simulation Examples</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sim_logistic_data</span> <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>sample_size</span> <span class='op'>=</span> <span class='fl'>25</span>, <span class='va'>beta_0</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>2</span>, <span class='va'>beta_1</span> <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>sample_size</span><span class='op'>)</span>
+  <span class='va'>eta</span> <span class='op'>=</span> <span class='va'>beta_0</span> <span class='op'>+</span> <span class='va'>beta_1</span> <span class='op'>*</span> <span class='va'>x</span>
+  <span class='va'>p</span> <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>eta</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>sample_size</span>, size <span class='op'>=</span> <span class='fl'>1</span>, prob <span class='op'>=</span> <span class='va'>p</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>x</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>You might think, why not simply use ordinary linear regression? Even with a binary response, our goal is still to model (some function of) <span class="math inline">\(\text{E}[Y \mid {\bf X} = {\bf x}]\)</span>. However, with a binary response coded as <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>, <span class="math inline">\(\text{E}[Y \mid {\bf X} = {\bf x}] = P[Y = 1 \mid {\bf X} = {\bf x}]\)</span> since</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{E}[Y \mid {\bf X} = {\bf x}] &amp;=  1 \cdot P[Y = 1 \mid {\bf X} = {\bf x}] + 0 \cdot P[Y = 0 \mid {\bf X} = {\bf x}] \\
+                                  &amp;= P[Y = 1 \mid {\bf X} = {\bf x}]
+\end{aligned}
+\]</span></p>
+<p>Then why can’t we just use ordinary linear regression to estimate <span class="math inline">\(\text{E}[Y \mid {\bf X} = {\bf x}]\)</span>, and thus <span class="math inline">\(P[Y = 1 \mid {\bf X} = {\bf x}]\)</span>?</p>
+<p>To investigate, let’s simulate data from the following model:</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = -2 + 3 x
+\]</span></p>
+<p>Another way to write this, which better matches the function we’re using to simulate the data:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i \mid {\bf X_i} = {\bf x_i} &amp;\sim \text{Bern}(p_i) \\
+p_i &amp;= p({\bf x_i}) = \frac{1}{1 + e^{-\eta({\bf x_i})}} \\
+\eta({\bf x_i}) &amp;= -2 + 3 x_i
+\end{aligned}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>example_data</span> <span class='op'>=</span> <span class='fu'>sim_logistic_data</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>  y          x
+1 0 -0.6264538
+2 1  0.1836433
+3 0 -0.8356286
+4 1  1.5952808
+5 0  0.3295078
+6 0 -0.8204684</code></pre>
+</div>
+<p>After simulating a dataset, we’ll then fit both ordinary linear regression and logistic regression. Notice that currently the responses variable <code>y</code> is a numeric variable that only takes values <code>0</code> and <code>1</code>. Later we’ll see that we can also fit logistic regression when the response is a factor variable with only two levels. (Generally, having a factor response is preferred, but having a dummy response allows use to make the comparison to using ordinary linear regression.)</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># ordinary linear regression</span>
+<span class='va'>fit_lm</span>  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span><span class='op'>)</span>
+<span class='co'># logistic regression</span>
+<span class='va'>fit_glm</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Notice that the syntax is extremely similar. What’s changed?</p>
+<ul>
+<li><code>lm()</code> has become <code>glm()</code></li>
+<li>We’ve added <code>family = binomial</code> argument</li>
+</ul>
+<p>In a lot of ways, <code>lm()</code> is just a more specific version of <code>glm()</code>. For example</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>would actually fit the ordinary linear regression that we have seen in the past. By default, <code>glm()</code> uses <code>family = gaussian</code> argument. That is, we’re fitting a GLM with a normally distributed response and the identity function as the link.</p>
+<p>The <code>family</code> argument to <code>glm()</code> actually specifies both the distribution and the link function. If not made explicit, the link function is chosen to be the <strong>canonical link function</strong>, which is essentially the most mathematical convenient link function. See <code>?glm</code> and <code>?family</code> for details. For example, the following code explicitly specifies the link function which was previously used by default.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># more detailed call to glm for logistic regression</span>
+<span class='va'>fit_glm</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link <span class='op'>=</span> <span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Making predictions with an object of type <code>glm</code> is slightly different than making predictions after fitting with <code>lm()</code>. In the case of logistic regression, with <code>family = binomial</code>, we have:</p>
+<table>
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>type</code></th>
+<th>Returned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"link"</code> [default]</td>
+<td><span class="math inline">\(\hat{\eta}({\bf x}) = \log\left(\frac{\hat{p}({\bf x})}{1 - \hat{p}({\bf x})}\right)\)</span></td>
+</tr>
+<tr class="even">
+<td><code>"response"</code></td>
+<td><span class="math inline">\(\hat{p}({\bf x}) = \frac{e^{\hat{\eta}({\bf x})}}{1 + e^{\hat{\eta}({\bf x})}} = \frac{1}{1 + e^{-\hat{\eta}({\bf x})}}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>That is, <code>type = "link"</code> will get you the log odds, while <code>type = "response"</code> will return the estimated mean, in this case, <span class="math inline">\(P[Y = 1 \mid {\bf X} = {\bf x}]\)</span> for each observation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, 
+     pch <span class='op'>=</span> <span class='fl'>20</span>, ylab <span class='op'>=</span> <span class='st'>"Estimated Probability"</span>, 
+     main <span class='op'>=</span> <span class='st'>"Ordinary vs Logistic Regression"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span><span class='va'>fit_lm</span>, col <span class='op'>=</span> <span class='st'>"darkorange"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_glm</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span>, 
+      add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"dodgerblue"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topleft"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Ordinary"</span>, <span class='st'>"Logistic"</span>, <span class='st'>"Data"</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>0</span><span class='op'>)</span>, 
+       pch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>20</span><span class='op'>)</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"darkorange"</span>, <span class='st'>"dodgerblue"</span>, <span class='st'>"black"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-8-1.png" width="624" style="display: block; margin: auto;" /></p>
+</div>
+<p>Since we only have a single predictor variable, we are able to graphically show this situation. First, note that the data, is plotted using black dots. The response <code>y</code> only takes values <code>0</code> and <code>1</code>.</p>
+<p>Next, we need to discuss the two added lines to the plot. The first, the solid orange line, is the fitted ordinary linear regression.</p>
+<p>The dashed blue curve is the estimated logistic regression. It is helpful to realize that we are not plotting an estimate of <span class="math inline">\(Y\)</span> for either. (Sometimes it might seem that way with ordinary linear regression, but that isn’t what is happening.) For both, we are plotting <span class="math inline">\(\hat{\text{E}}[Y \mid {\bf X} = {\bf x}]\)</span>, the estimated mean, which for a binary response happens to be an estimate of <span class="math inline">\(P[Y = 1 \mid {\bf X} = {\bf x}]\)</span>.</p>
+<p>We immediately see why ordinary linear regression is not a good idea. While it is estimating the mean, we see that it produces estimates that are less than 0! (And in other situations could produce estimates greater than 1!) If the mean is a probability, we don’t want probabilities less than 0 or greater than 1.</p>
+<p>Enter logistic regression. Since the output of the inverse logit function is restricted to be between 0 and 1, our estimates make much more sense as probabilities. Let’s look at our estimated coefficients. (With a lot of rounding, for simplicity.)</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>fit_glm</span><span class='op'>)</span>, <span class='fl'>1</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>(Intercept)           x 
+       -2.3         3.7 </code></pre>
+</div>
+<p>Our estimated model is then:</p>
+<p><span class="math display">\[
+\log\left(\frac{\hat{p}({\bf x})}{1 - \hat{p}({\bf x})}\right) = -2.3 + 3.7 x
+\]</span></p>
+<p>Because we’re not directly estimating the mean, but instead a function of the mean, we need to be careful with our interpretation of <span class="math inline">\(\hat{\beta}_1 = 3.7\)</span>. This means that, for a one unit increase in <span class="math inline">\(x\)</span>, the log odds change (in this case increase) by <span class="math inline">\(3.7\)</span>. Also, since <span class="math inline">\(\hat{\beta}_1\)</span> is positive, as we increase <span class="math inline">\(x\)</span> we also increase <span class="math inline">\(\hat{p}({\bf x})\)</span>. To see how much, we have to consider the inverse logistic function.</p>
+<p>For example, we have:</p>
+<p><span class="math display">\[
+\hat{P}[Y = 1 \mid X = -0.5] = \frac{e^{-2.3 + 3.7 \cdot (-0.5)}}{1 + e^{-2.3 + 3.7 \cdot (-0.5)}} \approx 0.016
+\]</span></p>
+<p><span class="math display">\[
+\hat{P}[Y = 1 \mid X = 0] = \frac{e^{-2.3 + 3.7 \cdot (0)}}{1 + e^{-2.3 + 3.7 \cdot (0)}} \approx 0.09112296
+\]</span></p>
+<p><span class="math display">\[
+\hat{P}[Y = 1 \mid X = 1] = \frac{e^{-2.3 + 3.7 \cdot (1)}}{1 + e^{-2.3 + 3.7 \cdot (1)}} \approx 0.8021839
+\]</span></p>
+<p>Now that we know we should use logistic regression, and not ordinary linear regression, let’s consider another example. This time, let’s consider the model</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = 1 + -4 x.
+\]</span></p>
+<p>Again, we could re-write this to better match the function we’re using to simulate the data:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i \mid {\bf X_i} = {\bf x_i} &amp;\sim \text{Bern}(p_i) \\
+p_i &amp;= p({\bf x_i}) = \frac{1}{1 + e^{-\eta({\bf x_i})}} \\
+\eta({\bf x_i}) &amp;= 1 + -4 x_i
+\end{aligned}
+\]</span></p>
+<p>In this model, as <span class="math inline">\(x\)</span> increases, the log odds decrease.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>example_data</span> <span class='op'>=</span> <span class='fu'>sim_logistic_data</span><span class='op'>(</span>sample_size <span class='op'>=</span> <span class='fl'>50</span>, beta_0 <span class='op'>=</span> <span class='fl'>1</span>, beta_1 <span class='op'>=</span> <span class='op'>-</span><span class='fl'>4</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>We again simulate some observations form this model, then fit logistic regression.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_glm</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, 
+     pch <span class='op'>=</span> <span class='fl'>20</span>, ylab <span class='op'>=</span> <span class='st'>"Estimated Probability"</span>, 
+     main <span class='op'>=</span> <span class='st'>"Logistic Regression, Decreasing Probability"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_glm</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span>, 
+      add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"dodgerblue"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/inv.logit.html'>inv.logit</a></span><span class='op'>(</span><span class='fl'>1</span> <span class='op'>-</span> <span class='fl'>4</span> <span class='op'>*</span> <span class='va'>x</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"darkorange"</span>, lty <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomleft"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"True Probability"</span>, <span class='st'>"Estimated Probability"</span>, <span class='st'>"Data"</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>0</span><span class='op'>)</span>, 
+       pch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>20</span><span class='op'>)</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"darkorange"</span>, <span class='st'>"dodgerblue"</span>, <span class='st'>"black"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-12-1.png" width="624" style="display: block; margin: auto;" /></p>
+</div>
+<p>We see that this time, as <span class="math inline">\(x\)</span> increases, <span class="math inline">\(\hat{p}({\bf x})\)</span> decreases.</p>
+<p>Now let’s look at an example where the estimated probability doesn’t always simply increase or decrease. Much like ordinary linear regression, the linear combination of predictors can contain transformations of predictors (in this case a quadratic term) and interactions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sim_quadratic_logistic_data</span> <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>sample_size</span> <span class='op'>=</span> <span class='fl'>25</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>x</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>sample_size</span><span class='op'>)</span>
+  <span class='va'>eta</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1.5</span> <span class='op'>+</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>x</span> <span class='op'>^</span> <span class='fl'>2</span>
+  <span class='va'>p</span> <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>eta</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='va'>sample_size</span>, size <span class='op'>=</span> <span class='fl'>1</span>, prob <span class='op'>=</span> <span class='va'>p</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>x</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = -1.5 + 0.5x + x^2.
+\]</span></p>
+<p>Again, we could re-write this to better match the function we’re using to simulate the data:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i \mid {\bf X_i} = {\bf x_i} &amp;\sim \text{Bern}(p_i) \\
+p_i &amp;= p({\bf x_i}) = \frac{1}{1 + e^{-\eta({\bf x_i})}} \\
+\eta({\bf x_i}) &amp;= -1.5 + 0.5x_i + x_i^2
+\end{aligned}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='va'>example_data</span> <span class='op'>=</span> <span class='fu'>sim_quadratic_logistic_data</span><span class='op'>(</span>sample_size <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_glm</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data <span class='op'>=</span> <span class='va'>example_data</span>, 
+     pch <span class='op'>=</span> <span class='fl'>20</span>, ylab <span class='op'>=</span> <span class='st'>"Estimated Probability"</span>, 
+     main <span class='op'>=</span> <span class='st'>"Logistic Regression, Quadratic Relationship"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_glm</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span>, 
+      add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"dodgerblue"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/inv.logit.html'>inv.logit</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.5</span> <span class='op'>+</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='va'>x</span> <span class='op'>+</span> <span class='va'>x</span> <span class='op'>^</span> <span class='fl'>2</span><span class='op'>)</span>, 
+      add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"darkorange"</span>, lty <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomleft"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"True Probability"</span>, <span class='st'>"Estimated Probability"</span>, <span class='st'>"Data"</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>0</span><span class='op'>)</span>, 
+       pch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>20</span><span class='op'>)</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"darkorange"</span>, <span class='st'>"dodgerblue"</span>, <span class='st'>"black"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-16-1.png" width="624" style="display: block; margin: auto;" /></p>
+</div>
+<h2 id="working-with-logistic-regression">Working with Logistic Regression</h2>
+<p>While the logistic regression model isn’t exactly the same as the ordinary linear regression model, because they both use a <strong>linear</strong> combination of the predictors</p>
+<p><span class="math display">\[
+\eta({\bf x}) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots  + \beta_{p - 1} x_{p - 1}
+\]</span></p>
+<p>working with logistic regression is very similar. Many of the things we did with ordinary linear regression can be done with logistic regression in a very similar fashion. For example,</p>
+<ul>
+<li>Testing for a single <span class="math inline">\(\beta\)</span> parameter</li>
+<li>Testing for a set of <span class="math inline">\(\beta\)</span> parameters</li>
+<li>Formula specification in <code>R</code></li>
+<li>Interpreting parameters and estimates</li>
+<li>Confidence intervals for parameters</li>
+<li>Confidence intervals for mean response</li>
+<li>Variable selection</li>
+</ul>
+<p>After some introduction to the new tests, we’ll demonstrate each of these using an example.</p>
+<h3 id="testing-with-glms">Testing with GLMs</h3>
+<p>Like ordinary linear regression, we’ll want to be able to perform hypothesis testing. We’ll again want both single parameter, and multiple parameter tests.</p>
+<h3 id="wald-test">Wald Test</h3>
+<p>In ordinary linear regression, we performed the test of</p>
+<p><span class="math display">\[
+H_0: \beta_j = 0 \quad \text{vs} \quad H_1: \beta_j \neq 0
+\]</span></p>
+<p>using a <span class="math inline">\(t\)</span>-test.</p>
+<p>For the logistic regression model,</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = \beta_0 + \beta_1 x_1 + \ldots  + \beta_{p - 1} x_{p - 1}
+\]</span></p>
+<p>we can again perform a test of</p>
+<p><span class="math display">\[
+H_0: \beta_j = 0 \quad \text{vs} \quad H_1: \beta_j \neq 0
+\]</span></p>
+<p>however, the test statistic and its distribution are no longer <span class="math inline">\(t\)</span>. We see that the test statistic takes the same form</p>
+<p><span class="math display">\[
+z = \frac{\hat{\beta}_j - \beta_j}{\text{SE}[\hat{\beta}_j]} \overset{\text{approx}}{\sim} N(0, 1)
+\]</span></p>
+<p>but now we are performing a <span class="math inline">\(z\)</span>-test, as the test statistic is approximated by a standard normal distribution, <em>provided we have a large enough sample</em>. (The <span class="math inline">\(t\)</span>-test for ordinary linear regression, assuming the assumptions were correct, had an exact distribution for any sample size.)</p>
+<p>We’ll skip some of the exact details of the calculations, as <code>R</code> will obtain the standard error for us. The use of this test will be extremely similar to the <span class="math inline">\(t\)</span>-test for ordinary linear regression. Essentially the only thing that changes is the distribution of the test statistic.</p>
+<h3 id="likelihood-ratio-test">Likelihood-Ratio Test</h3>
+<p>Consider the following <strong>full</strong> model,</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x_i})}{1 - p({\bf x_i})}\right) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_{(p-1)} x_{i(p-1)} + \epsilon_i
+\]</span></p>
+<p>This model has <span class="math inline">\(p - 1\)</span> predictors, for a total of <span class="math inline">\(p\)</span> <span class="math inline">\(\beta\)</span>-parameters. We will denote the MLE of these <span class="math inline">\(\beta\)</span>-parameters as <span class="math inline">\(\hat{\beta}_{\text{Full}}\)</span></p>
+<p>Now consider a <strong>null</strong> (or <strong>reduced</strong>) model,</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x_i})}{1 - p({\bf x_i})}\right) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_{(q-1)} x_{i(q-1)} + \epsilon_i
+\]</span></p>
+<p>where <span class="math inline">\(q &lt; p\)</span>. This model has <span class="math inline">\(q - 1\)</span> predictors, for a total of <span class="math inline">\(q\)</span> <span class="math inline">\(\beta\)</span>-parameters. We will denote the MLE of these <span class="math inline">\(\beta\)</span>-parameters as <span class="math inline">\(\hat{\beta}_{\text{Null}}\)</span></p>
+<p>The difference between these two models can be codified by the null hypothesis of a test.</p>
+<p><span class="math display">\[
+H_0: \beta_q = \beta_{q+1} = \cdots = \beta_{p - 1} = 0.
+\]</span></p>
+<p>This implies that the reduced model is nested inside the full model.</p>
+<p>We then define a test statistic, <span class="math inline">\(D\)</span>,</p>
+<p><span class="math display">\[
+D = -2 \log \left( \frac{L(\boldsymbol{\hat{\beta}_{\text{Null}}})} {L(\boldsymbol{\hat{\beta}_{\text{Full}}})} \right) = 2 \log \left( \frac{L(\boldsymbol{\hat{\beta}_{\text{Full}}})} {L(\boldsymbol{\hat{\beta}_{\text{Null}}})} \right) = 2 \left( \ell(\hat{\beta}_{\text{Full}}) - \ell(\hat{\beta}_{\text{Null}})\right)
+\]</span></p>
+<p>where <span class="math inline">\(L\)</span> denotes a likelihood and <span class="math inline">\(\ell\)</span> denotes a log-likelihood. For a large enough sample, this test statistic has an approximate Chi-square distribution</p>
+<p><span class="math display">\[
+D \overset{\text{approx}}{\sim} \chi^2_{k}
+\]</span></p>
+<p>where <span class="math inline">\(k = p - q\)</span>, the difference in number of parameters of the two models.</p>
+<p>This test, which we will call the <strong>Likelihood-Ratio Test</strong>, will be the analogue to the ANOVA <span class="math inline">\(F\)</span>-test for logistic regression. Interestingly, to perform the Likelihood-Ratio Test, we’ll actually again use the <code>anova()</code> function in <code>R</code>!.</p>
+<p>The Likelihood-Ratio Test is actually a rather general test, however, here we have presented a specific application to nested logistic regression models.</p>
+<h3 id="saheart-example"><code>SAheart</code> Example</h3>
+<p>To illustrate the use of logistic regression, we will use the <code>SAheart</code> dataset from the <code>ElemStatLearn</code> package.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># install.packages("bestglm")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>bestglm</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"SAheart"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">sbp</th>
+<th style="text-align: right;">tobacco</th>
+<th style="text-align: right;">ldl</th>
+<th style="text-align: right;">adiposity</th>
+<th style="text-align: left;">famhist</th>
+<th style="text-align: right;">typea</th>
+<th style="text-align: right;">obesity</th>
+<th style="text-align: right;">alcohol</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">chd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">12.00</td>
+<td style="text-align: right;">5.73</td>
+<td style="text-align: right;">23.11</td>
+<td style="text-align: left;">Present</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">25.30</td>
+<td style="text-align: right;">97.20</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">144</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">4.41</td>
+<td style="text-align: right;">28.61</td>
+<td style="text-align: left;">Absent</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">28.87</td>
+<td style="text-align: right;">2.06</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">3.48</td>
+<td style="text-align: right;">32.28</td>
+<td style="text-align: left;">Present</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">29.14</td>
+<td style="text-align: right;">3.81</td>
+<td style="text-align: right;">46</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">7.50</td>
+<td style="text-align: right;">6.41</td>
+<td style="text-align: right;">38.03</td>
+<td style="text-align: left;">Present</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">31.99</td>
+<td style="text-align: right;">24.26</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">13.60</td>
+<td style="text-align: right;">3.50</td>
+<td style="text-align: right;">27.78</td>
+<td style="text-align: left;">Present</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">25.99</td>
+<td style="text-align: right;">57.34</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">132</td>
+<td style="text-align: right;">6.20</td>
+<td style="text-align: right;">6.47</td>
+<td style="text-align: right;">36.21</td>
+<td style="text-align: left;">Present</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">30.77</td>
+<td style="text-align: right;">14.14</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This data comes from a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa. The <code>chd</code> variable, which we will use as a response, indicates whether or not coronary heart disease is present in an individual. Note that this is coded as a numeric <code>0</code> / <code>1</code> variable. Using this as a response with <code>glm()</code> it is important to indicate <code>family = binomial</code>, otherwise ordinary linear regression will be fit. Later, we will see the use of a factor variable response, which is actually preferred, as you cannot accidentally fit ordinary linear regression.</p>
+<p>The predictors are various measurements for each individual, many related to heart health. For example <code>sbp</code>, systolic blood pressure, and <code>ldl</code>, low density lipoprotein cholesterol. For full details, use <code>?SAheart</code>.</p>
+<p>We’ll begin by attempting to model the probability of coronary heart disease based on low density lipoprotein cholesterol. That is, we will fit the model</p>
+<p><span class="math display">\[
+\log\left(\frac{P[\texttt{chd} = 1]}{1 - P[\texttt{chd} = 1]}\right) = \beta_0 + \beta_{\texttt{ldl}} x_{\texttt{ldl}}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>chd_mod_ldl</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>chd</span> <span class='op'>~</span> <span class='va'>ldl</span>, data <span class='op'>=</span> <span class='va'>SAheart</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/jitter.html'>jitter</a></span><span class='op'>(</span><span class='va'>chd</span>, factor <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>ldl</span>, data <span class='op'>=</span> <span class='va'>SAheart</span>, pch <span class='op'>=</span> <span class='fl'>20</span>, 
+     ylab <span class='op'>=</span> <span class='st'>"Probability of CHD"</span>, xlab <span class='op'>=</span> <span class='st'>"Low Density Lipoprotein Cholesterol"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/grid.html'>grid</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/curve.html'>curve</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>chd_mod_ldl</span>, <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>ldl <span class='op'>=</span> <span class='va'>x</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span>, 
+      add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"dodgerblue"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-19-1.png" width="624" style="display: block; margin: auto;" /></p>
+</div>
+<p>As before, we plot the data in addition to the estimated probabilities. Note that we have “jittered” the data to make it easier to visualize, but the data do only take values <code>0</code> and <code>1</code>.</p>
+<p>As we would expect, this plot indicates that as <code>ldl</code> increases, so does the probability of <code>chd</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>chd_mod_ldl</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>              Estimate Std. Error   z value     Pr(&gt;|z|)
+(Intercept) -1.9686681 0.27307908 -7.209150 5.630207e-13
+ldl          0.2746613 0.05163983  5.318787 1.044615e-07</code></pre>
+</div>
+<p>To perform the test</p>
+<p><span class="math display">\[
+H_0: \beta_{\texttt{ldl}} = 0
+\]</span></p>
+<p>we use the <code>summary()</code> function as we have done so many times before. Like the <span class="math inline">\(t\)</span>-test for ordinary linear regression, this returns the estimate of the parameter, its standard error, the relevant test statistic (<span class="math inline">\(z\)</span>), and its p-value. Here we have an incredibly low p-value, so we reject the null hypothesis. The <code>ldl</code> variable appears to be a significant predictor.</p>
+<p>When fitting logistic regression, we can use the same formula syntax as ordinary linear regression. So, to fit an additive model using all available predictors, we use:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>chd_mod_additive</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>chd</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>SAheart</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>We can then use the likelihood-ratio test to compare the two models. Specifically, we are testing</p>
+<p><span class="math display">\[
+H_0: \beta_{\texttt{sbp}} = \beta_{\texttt{tobacco}} = \beta_{\texttt{adiposity}} = \beta_{\texttt{famhist}} = \beta_{\texttt{typea}} = \beta_{\texttt{obesity}} = \beta_{\texttt{alcohol}} = \beta_{\texttt{age}} = 0
+\]</span></p>
+<p>We could manually calculate the test statistic,</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>-</span><span class='fl'>2</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/logLik.html'>logLik</a></span><span class='op'>(</span><span class='va'>chd_mod_ldl</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/logLik.html'>logLik</a></span><span class='op'>(</span><span class='va'>chd_mod_additive</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 92.13879</code></pre>
+</div>
+<p>Or we could utilize the <code>anova()</code> function. By specifying <code>test = "LRT"</code>, <code>R</code> will use the likelihood-ratio test to compare the two models.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span><span class='op'>(</span><span class='va'>chd_mod_ldl</span>, <span class='va'>chd_mod_additive</span>, test <span class='op'>=</span> <span class='st'>"LRT"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Analysis of Deviance Table
+
+Model 1: chd ~ ldl
+Model 2: chd ~ sbp + tobacco + ldl + adiposity + famhist + typea + obesity + 
+    alcohol + age
+  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+1       460     564.28                          
+2       452     472.14  8   92.139 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>We see that the test statistic that we had just calculated appears in the output. The very small p-value suggests that we prefer the larger model.</p>
+<p>While we prefer the additive model compared to the model with only a single predictor, do we actually need all of the predictors in the additive model? To select a subset of predictors, we can use a stepwise procedure as we did with ordinary linear regression. Recall that AIC and BIC were defined in terms of likelihoods. Here we demonstrate using AIC with a backwards selection procedure.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>chd_mod_selected</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/step.html'>step</a></span><span class='op'>(</span><span class='va'>chd_mod_additive</span>, trace <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>chd_mod_selected</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>   (Intercept)        tobacco            ldl famhistPresent 
+   -6.44644451     0.08037533     0.16199164     0.90817526 
+         typea            age 
+    0.03711521     0.05046038 </code></pre>
+</div>
+<p>We could again compare this model to the additive models.</p>
+<p><span class="math display">\[
+H_0: \beta_{\texttt{sbp}} = \beta_{\texttt{adiposity}} = \beta_{\texttt{obesity}} = \beta_{\texttt{alcohol}} = 0
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span><span class='op'>(</span><span class='va'>chd_mod_selected</span>, <span class='va'>chd_mod_additive</span>, test <span class='op'>=</span> <span class='st'>"LRT"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Analysis of Deviance Table
+
+Model 1: chd ~ tobacco + ldl + famhist + typea + age
+Model 2: chd ~ sbp + tobacco + ldl + adiposity + famhist + typea + obesity + 
+    alcohol + age
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+1       456     475.69                     
+2       452     472.14  4   3.5455    0.471</code></pre>
+</div>
+<p>Here it seems that we would prefer the selected model.</p>
+<h3 id="confidence-intervals">Confidence Intervals</h3>
+<p>We can create confidence intervals for the <span class="math inline">\(\beta\)</span> parameters using the <code>confint()</code> function as we did with ordinary linear regression.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/confint.html'>confint</a></span><span class='op'>(</span><span class='va'>chd_mod_selected</span>, level <span class='op'>=</span> <span class='fl'>0.99</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>                      0.5 %      99.5 %
+(Intercept)    -8.941825274 -4.18278990
+tobacco         0.015704975  0.14986616
+ldl             0.022923610  0.30784590
+famhistPresent  0.330033483  1.49603366
+typea           0.006408724  0.06932612
+age             0.024847330  0.07764277</code></pre>
+</div>
+<p>Note that we could create intervals by rearranging the results of the Wald test to obtain the Wald confidence interval. This would be given by</p>
+<p><span class="math display">\[
+\hat{\beta}_j \pm z_{\alpha/2} \cdot \text{SE}[\hat{\beta}_j].
+\]</span></p>
+<p>However, <code>R</code> is using a slightly different approach based on a concept called the profile likelihood. (The details of which we will omit.) Ultimately the intervals reported will be similar, but the method used by <code>R</code> is more common in practice, probably at least partially because it is the default approach in <code>R</code>. Check to see how intervals using the formula above compare to those from the output of <code>confint()</code>. (Or, note that using <code>confint.default()</code> will return the results of calculating the Wald confidence interval.)</p>
+<h3 id="confidence-intervals-for-mean-response">Confidence Intervals for Mean Response</h3>
+<p>Confidence intervals for the mean response require some additional thought. With a “large enough” sample, we have</p>
+<p><span class="math display">\[
+\frac{\hat{\eta}({\bf x}) - \eta({\bf x})}{\text{SE}[\hat{\eta}({\bf x})]} \overset{\text{approx}}{\sim} N(0, 1)
+\]</span></p>
+<p>Then we can create an approximate <span class="math inline">\((1 - \alpha)\%\)</span> confidence intervals for <span class="math inline">\(\eta({\bf x})\)</span> using</p>
+<p><span class="math display">\[
+\hat{\eta}({\bf x}) \pm z_{\alpha/2} \cdot \text{SE}[\hat{\eta}({\bf x})]
+\]</span></p>
+<p>where <span class="math inline">\(z_{\alpha/2}\)</span> is the critical value such that <span class="math inline">\(P(Z &gt; z_{\alpha/2}) = \alpha/2\)</span>.</p>
+<p>This isn’t a particularly interesting interval. Instead, what we really want is an interval for the mean response, <span class="math inline">\(p({\bf x})\)</span>. To obtain an interval for <span class="math inline">\(p({\bf x})\)</span>, we simply apply the inverse logit transform to the endpoints of the interval for <span class="math inline">\(\eta.\)</span></p>
+<p><span class="math display">\[
+\left(\text{logit}^{-1}(\hat{\eta}({\bf x}) - z_{\alpha/2} \cdot \text{SE}[\hat{\eta}({\bf x})] ), \ \text{logit}^{-1}(\hat{\eta}({\bf x}) + z_{\alpha/2} \cdot \text{SE}[\hat{\eta}({\bf x})])\right)
+\]</span></p>
+<p>To demonstrate creating these intervals, we’ll consider a new observation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>new_obs</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  sbp <span class='op'>=</span> <span class='fl'>148.0</span>,
+  tobacco <span class='op'>=</span> <span class='fl'>5</span>,
+  ldl <span class='op'>=</span> <span class='fl'>12</span>,
+  adiposity <span class='op'>=</span> <span class='fl'>31.23</span>,
+  famhist <span class='op'>=</span> <span class='st'>"Present"</span>,
+  typea <span class='op'>=</span> <span class='fl'>47</span>,
+  obesity <span class='op'>=</span> <span class='fl'>28.50</span>,
+  alcohol <span class='op'>=</span> <span class='fl'>23.89</span>,
+  age <span class='op'>=</span> <span class='fl'>60</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Fist, we’ll use the <code>predict()</code> function to obtain <span class="math inline">\(\hat{\eta}({\bf x})\)</span> for this observation.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>eta_hat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>chd_mod_selected</span>, <span class='va'>new_obs</span>, se.fit <span class='op'>=</span> <span class='cn'>TRUE</span>, type <span class='op'>=</span> <span class='st'>"link"</span><span class='op'>)</span>
+<span class='va'>eta_hat</span>
+</code></pre>
+</div>
+<pre><code>$fit
+       1 
+1.579545 
+
+$se.fit
+[1] 0.4114796
+
+$residual.scale
+[1] 1</code></pre>
+</div>
+<p>By setting <code>se.fit = TRUE</code>, <code>R</code> also computes <span class="math inline">\(\text{SE}[\hat{\eta}({\bf x})]\)</span>. Note that we used <code>type = "link"</code>, but this is actually a default value. We added it here to stress that the output from <code>predict()</code> will be the value of the link function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>z_crit</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>qnorm</a></span><span class='op'>(</span><span class='fl'>0.975</span><span class='op'>)</span>, <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>z_crit</span>, <span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 1.96</code></pre>
+</div>
+<p>After obtaining the correct critical value, we can easily create a <span class="math inline">\(95\%\)</span> confidence interval for <span class="math inline">\(\eta({\bf x})\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>eta_hat</span><span class='op'>$</span><span class='va'>fit</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>z_crit</span> <span class='op'>*</span> <span class='va'>eta_hat</span><span class='op'>$</span><span class='va'>se.fit</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.773045 2.386045</code></pre>
+</div>
+<p>Now we simply need to apply the correct transformation to make this a confidence interval for <span class="math inline">\(p({\bf x})\)</span>, the probability of coronary heart disease for this observation. Note that the <code>boot</code> package contains functions <code>logit()</code> and <code>inv.logit()</code> which are the logit and inverse logit transformations, respectively.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>boot</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/boot/man/inv.logit.html'>inv.logit</a></span><span class='op'>(</span><span class='va'>eta_hat</span><span class='op'>$</span><span class='va'>fit</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>z_crit</span> <span class='op'>*</span> <span class='va'>eta_hat</span><span class='op'>$</span><span class='va'>se.fit</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.6841792 0.9157570</code></pre>
+</div>
+<p>Notice, as we would expect, the bounds of this interval are both between 0 and 1. Also, since both bounds of the interval for <span class="math inline">\(\eta({\bf x})\)</span> are positive, both bounds of the interval for <span class="math inline">\(p({\bf x})\)</span> are greater than 0.5.</p>
+<h3 id="formula-syntax">Formula Syntax</h3>
+<p>Without really thinking about it, we’ve been using our previous knowledge of <code>R</code>’s model formula syntax to fit logistic regression.</p>
+<h4 id="interactions">Interactions</h4>
+<p>Let’s add an interaction between LDL and family history for the model we selected.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>chd_mod_interaction</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>chd</span> <span class='op'>~</span> <span class='va'>alcohol</span> <span class='op'>+</span> <span class='va'>ldl</span> <span class='op'>+</span> <span class='va'>famhist</span> <span class='op'>+</span> <span class='va'>typea</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>ldl</span><span class='op'>:</span><span class='va'>famhist</span>, 
+                          data <span class='op'>=</span> <span class='va'>SAheart</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>chd_mod_interaction</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>
+Call:
+glm(formula = chd ~ alcohol + ldl + famhist + typea + age + ldl:famhist, 
+    family = binomial, data = SAheart)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.9082  -0.8308  -0.4550   0.9286   2.5152  
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)        -6.043472   0.937186  -6.449 1.13e-10 ***
+alcohol             0.003800   0.004332   0.877  0.38033    
+ldl                 0.035593   0.071448   0.498  0.61837    
+famhistPresent     -0.733836   0.618131  -1.187  0.23515    
+typea               0.036253   0.012172   2.978  0.00290 ** 
+age                 0.062416   0.009723   6.419 1.37e-10 ***
+ldl:famhistPresent  0.314311   0.114922   2.735  0.00624 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 596.11  on 461  degrees of freedom
+Residual deviance: 477.46  on 455  degrees of freedom
+AIC: 491.46
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<p>Based on the <span class="math inline">\(z\)</span>-test seen in the above summary, this interaction is significant. The effect of LDL on the probability of CHD is different depending on family history.</p>
+<h4 id="polynomial-terms">Polynomial Terms</h4>
+<p>Let’s take the previous model, and now add a polynomial term.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>chd_mod_int_quad</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>chd</span> <span class='op'>~</span> <span class='va'>alcohol</span> <span class='op'>+</span> <span class='va'>ldl</span> <span class='op'>+</span> <span class='va'>famhist</span> <span class='op'>+</span> <span class='va'>typea</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>ldl</span><span class='op'>:</span><span class='va'>famhist</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>ldl</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>,
+                       data <span class='op'>=</span> <span class='va'>SAheart</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>chd_mod_int_quad</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>
+Call:
+glm(formula = chd ~ alcohol + ldl + famhist + typea + age + ldl:famhist + 
+    I(ldl^2), family = binomial, data = SAheart)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.8953  -0.8311  -0.4556   0.9276   2.5204  
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)        -6.096747   1.065952  -5.720 1.07e-08 ***
+alcohol             0.003842   0.004350   0.883  0.37716    
+ldl                 0.056876   0.214420   0.265  0.79081    
+famhistPresent     -0.723769   0.625167  -1.158  0.24698    
+typea               0.036248   0.012171   2.978  0.00290 ** 
+age                 0.062299   0.009788   6.365 1.95e-10 ***
+I(ldl^2)           -0.001587   0.015076  -0.105  0.91617    
+ldl:famhistPresent  0.311615   0.117559   2.651  0.00803 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 596.11  on 461  degrees of freedom
+Residual deviance: 477.45  on 454  degrees of freedom
+AIC: 493.45
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<p>Unsurprisingly, since this additional transformed variable wasn’t intelligently chosen, it is not significant. However, this does allow us to stress the fact that the syntax notation that we had been using with <code>lm()</code> works basically exactly the same for <code>glm()</code>, however now we understand that this is specifying the linear combination of predictions, <span class="math inline">\(\eta({\bf x})\)</span>.</p>
+<p>That is, the above fits the model</p>
+<p><span class="math display">\[
+\log\left(\frac{p({\bf x})}{1 - p({\bf x})}\right) = 
+\beta_0 +
+\beta_{1}x_{\texttt{alcohol}} +
+\beta_{2}x_{\texttt{ldl}} +
+\beta_{3}x_{\texttt{famhist}} +
+\beta_{4}x_{\texttt{typea}} +
+\beta_{5}x_{\texttt{age}} +
+\beta_{6}x_{\texttt{ldl}}x_{\texttt{famhist}} +
+\beta_{7}x_{\texttt{ldl}}^2
+\]</span></p>
+<p>You may have realized this before we actually explicitly wrote it down!</p>
+<h3 id="deviance">Deviance</h3>
+<p>You have probably noticed that the output from <code>summary()</code> is also very similar to that of ordinary linear regression. One difference, is the “deviance” being reported. The <code>Null deviance</code> is the deviance for the null model, that is, a model with no predictors. The <code>Residual deviance</code> is the deviance for the model that was fit.</p>
+<p><a href="https://en.wikipedia.org/wiki/Deviance_(statistics)" target="_blank"><strong>Deviance</strong></a> compares the model to a saturated model. (Without repeated observations, a saturated model is a model that fits perfectly, using a parameter for each observation.) Essentially, deviance is a generalized <em>residual sum of squares</em> for GLMs. Like RSS, deviance decreased as the model complexity increases.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/deviance.html'>deviance</a></span><span class='op'>(</span><span class='va'>chd_mod_ldl</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 564.2788</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/deviance.html'>deviance</a></span><span class='op'>(</span><span class='va'>chd_mod_selected</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 475.6856</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/deviance.html'>deviance</a></span><span class='op'>(</span><span class='va'>chd_mod_additive</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 472.14</code></pre>
+</div>
+<p>Note that these are nested, and we see that deviance does decrease as the model size becomes larger. So while a lower deviance is better, if the model becomes too big, it may be overfitting. Note that <code>R</code> also outputs AIC in the summary, which will penalize according to model size, to prevent overfitting.</p>
+<h2 id="classification">Classification</h2>
+<p>So far we’ve mostly used logistic regression to estimate class probabilities. The somewhat obvious next step is to use these probabilities to make “predictions,” which in this context, we would call <strong>classifications</strong>. Based on the values of the predictors, should an observation be classified as <span class="math inline">\(Y = 1\)</span> or as <span class="math inline">\(Y = 0\)</span>?</p>
+<p>Suppose we didn’t need to estimate probabilities from data, and instead, we actually knew both</p>
+<p><span class="math display">\[
+p({\bf x}) = P[Y = 1 \mid {\bf X} = {\bf x}]
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+1 - p({\bf x}) = P[Y = 0 \mid {\bf X} = {\bf x}].
+\]</span></p>
+<p>With this information, classifying observations based on the values of the predictors is actually extremely easy. Simply classify an observation to the class (<span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>) with the larger probability. In general, this result is called the <strong>Bayes Classifier</strong>,</p>
+<p><span class="math display">\[
+C^B({\bf x}) = \underset{k}{\mathrm{argmax}} \ P[Y = k \mid {\bf X = x}].
+\]</span></p>
+<p>For a binary response, that is,</p>
+<p><span class="math display">\[
+\hat{C}(\bf x) = 
+\begin{cases} 
+      1 &amp; p({\bf x}) &gt; 0.5 \\
+      0 &amp; p({\bf x}) \leq 0.5 
+\end{cases}
+\]</span></p>
+<p>Simply put, the Bayes classifier (not to be confused with the Naive Bayes Classifier) minimizes the probability of misclassification by classifying each observation to the class with the highest probability. Unfortunately, in practice, we won’t know the necessary probabilities to directly use the Bayes classifier. Instead we’ll have to use estimated probabilities. So to create a classifier that seeks to minimize misclassifications, we would use,</p>
+<p><span class="math display">\[
+\hat{C}({\bf x}) = \underset{k}{\mathrm{argmax}} \ \hat{P}[Y = k \mid {\bf X = x}].
+\]</span></p>
+<p>In the case of a binary response since <span class="math inline">\(\hat{p}({\bf x}) = 1 - \hat{p}({\bf x})\)</span>, this becomes</p>
+<p><span class="math display">\[
+\hat{C}(\bf x) = 
+\begin{cases} 
+      1 &amp; \hat{p}({\bf x}) &gt; 0.5 \\
+      0 &amp; \hat{p}({\bf x}) \leq 0.5 
+\end{cases}
+\]</span></p>
+<p>Using this simple classification rule, we can turn logistic regression into a classifier. To use logistic regression for classification, we first use logistic regression to obtain estimated probabilities, <span class="math inline">\(\hat{p}({\bf x})\)</span>, then use these in conjunction with the above classification rule.</p>
+<p>Logistic regression is just one of many ways that these probabilities could be estimated. In a course completely focused on machine learning, you’ll learn many additional ways to do this, as well as methods to directly make classifications without needing to first estimate probabilities. But since we had already introduced logistic regression, it makes sense to discuss it in the context of classification.</p>
+<h3 id="spam-example"><code>spam</code> Example</h3>
+<p>To illustrate the use of logistic regression as a classifier, we will use the <code>spam</code> dataset from the <code>kernlab</code> package.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># install.packages("kernlab")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>kernlab</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"spam"</span><span class='op'>)</span>
+<span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/deprecated.html'>as.tibble</a></span><span class='op'>(</span><span class='va'>spam</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 4,601 x 58
+    make address   all num3d   our  over remove internet order  mail
+   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  0       0.64  0.64     0  0.32  0      0        0     0     0   
+ 2  0.21    0.28  0.5      0  0.14  0.28   0.21     0.07  0     0.94
+ 3  0.06    0     0.71     0  1.23  0.19   0.19     0.12  0.64  0.25
+ 4  0       0     0        0  0.63  0      0.31     0.63  0.31  0.63
+ 5  0       0     0        0  0.63  0      0.31     0.63  0.31  0.63
+ 6  0       0     0        0  1.85  0      0        1.85  0     0   
+ 7  0       0     0        0  1.92  0      0        0     0     0.64
+ 8  0       0     0        0  1.88  0      0        1.88  0     0   
+ 9  0.15    0     0.46     0  0.61  0      0.3      0     0.92  0.76
+10  0.06    0.12  0.77     0  0.19  0.32   0.38     0     0.06  0   
+# ... with 4,591 more rows, and 48 more variables: receive &lt;dbl&gt;,
+#   will &lt;dbl&gt;, people &lt;dbl&gt;, report &lt;dbl&gt;, addresses &lt;dbl&gt;,
+#   free &lt;dbl&gt;, business &lt;dbl&gt;, email &lt;dbl&gt;, you &lt;dbl&gt;, credit &lt;dbl&gt;,
+#   your &lt;dbl&gt;, font &lt;dbl&gt;, num000 &lt;dbl&gt;, money &lt;dbl&gt;, hp &lt;dbl&gt;,
+#   hpl &lt;dbl&gt;, george &lt;dbl&gt;, num650 &lt;dbl&gt;, lab &lt;dbl&gt;, labs &lt;dbl&gt;,
+#   telnet &lt;dbl&gt;, num857 &lt;dbl&gt;, data &lt;dbl&gt;, num415 &lt;dbl&gt;,
+#   num85 &lt;dbl&gt;, technology &lt;dbl&gt;, num1999 &lt;dbl&gt;, parts &lt;dbl&gt;, ...</code></pre>
+</div>
+<p>This dataset, created in the late 1990s at Hewlett-Packard Labs, contains 4601 emails, of which 1813 are considered spam. The remaining are not spam. (Which for simplicity, we might call, ham.) Additional details can be obtained by using <code>?spam</code> of by visiting the <a href="https://archive.ics.uci.edu/ml/datasets/spambase" target="_blank">UCI Machine Learning Repository</a>.</p>
+<p>The response variable, <code>type</code>, is a <strong>factor</strong> with levels that label each email as <code>spam</code> or <code>nonspam</code>. When fitting models, <code>nonspam</code> will be the reference level, <span class="math inline">\(Y = 0\)</span>, as it comes first alphabetically.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>spam</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] TRUE</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span><span class='op'>(</span><span class='va'>spam</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;nonspam&quot; &quot;spam&quot;   </code></pre>
+</div>
+<p>Many of the predictors (often called features in machine learning) are engineered based on the emails. For example, <code>charDollar</code> is the number of times an email contains the <code>$</code> character. Some variables are highly specific to this dataset, for example <code>george</code> and <code>num650</code>. (The name and area code for one of the researchers whose emails were used.) We should keep in mind that this dataset was created based on emails send to academic type researcher in the 1990s. Any results we derive probably won’t generalize to modern emails for the general public.</p>
+<p>To get started, we’ll first test-train split the data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>42</span><span class='op'>)</span>
+<span class='co'># spam_idx = sample(nrow(spam), round(nrow(spam) / 2))</span>
+<span class='va'>spam_idx</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>spam</span><span class='op'>)</span>, <span class='fl'>1000</span><span class='op'>)</span>
+<span class='va'>spam_trn</span> <span class='op'>=</span> <span class='va'>spam</span><span class='op'>[</span><span class='va'>spam_idx</span>, <span class='op'>]</span>
+<span class='va'>spam_tst</span> <span class='op'>=</span> <span class='va'>spam</span><span class='op'>[</span><span class='op'>-</span><span class='va'>spam_idx</span>, <span class='op'>]</span>
+</code></pre>
+</div>
+</div>
+<p>We’ve used a somewhat small train set relative to the total size of the dataset. In practice it should likely be larger, but this is simply to keep training time low for illustration and rendering of this document.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fit_caps</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>capitalTotal</span>, 
+               data <span class='op'>=</span> <span class='va'>spam_trn</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='va'>fit_selected</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>edu</span> <span class='op'>+</span> <span class='va'>money</span> <span class='op'>+</span> <span class='va'>capitalTotal</span> <span class='op'>+</span> <span class='va'>charDollar</span>, 
+                   data <span class='op'>=</span> <span class='va'>spam_trn</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='va'>fit_additive</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>.</span>, 
+                   data <span class='op'>=</span> <span class='va'>spam_trn</span>, family <span class='op'>=</span> <span class='va'>binomial</span><span class='op'>)</span>
+<span class='va'>fit_over</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>type</span> <span class='op'>~</span> <span class='va'>capitalTotal</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>.</span><span class='op'>)</span>, 
+               data <span class='op'>=</span> <span class='va'>spam_trn</span>, family <span class='op'>=</span> <span class='va'>binomial</span>, maxit <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>We’ll fit four logistic regressions, each more complex than the previous. Note that we’re suppressing two warnings. The first we briefly mentioned previously.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Note that, when we receive this warning, we should be highly suspicious of the parameter estimates.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>fit_selected</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>  (Intercept)           edu         money  capitalTotal    charDollar 
+-1.1199744712 -1.9837988840  0.9784675298  0.0007757011 11.5772904667 </code></pre>
+</div>
+<p>However, the model can still be used to create a classifier, and we will evaluate that classifier on its own merits.</p>
+<p>We also, “suppressed” the warning:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>In reality, we didn’t actually suppress it, but instead changed <code>maxit</code> to <code>50</code>, when fitting the model <code>fit_over</code>. This was enough additional iterations to allow the iteratively reweighted least squares algorithm to converge when fitting the model.</p>
+<h3 id="evaluating-classifiers">Evaluating Classifiers</h3>
+<p>The metric we’ll be most interested in for evaluating the overall performance of a classifier is the <strong>misclassification rate</strong>. (Sometimes, instead accuracy is reported, which is instead the proportion of correction classifications, so both metrics serve the same purpose.)</p>
+<p><span class="math display">\[
+\text{Misclass}(\hat{C}, \text{Data}) = \frac{1}{n}\sum_{i = 1}^{n}I(y_i \neq \hat{C}({\bf x_i}))
+\]</span></p>
+<p><span class="math display">\[
+I(y_i \neq \hat{C}({\bf x_i})) = 
+\begin{cases} 
+  0 &amp; y_i = \hat{C}({\bf x_i}) \\
+  1 &amp; y_i \neq \hat{C}({\bf x_i}) \\
+\end{cases}
+\]</span></p>
+<p>When using this metric on the training data, it will have the same issues as RSS did for ordinary linear regression, that is, it will only go down.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># training misclassification rate</span>
+<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_caps</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='st'>"spam"</span>, <span class='st'>"nonspam"</span><span class='op'>)</span> <span class='op'>!=</span> <span class='va'>spam_trn</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.339</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_selected</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='st'>"spam"</span>, <span class='st'>"nonspam"</span><span class='op'>)</span> <span class='op'>!=</span> <span class='va'>spam_trn</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.224</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_additive</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='st'>"spam"</span>, <span class='st'>"nonspam"</span><span class='op'>)</span> <span class='op'>!=</span> <span class='va'>spam_trn</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.066</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_over</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, <span class='st'>"spam"</span>, <span class='st'>"nonspam"</span><span class='op'>)</span> <span class='op'>!=</span> <span class='va'>spam_trn</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.136</code></pre>
+</div>
+<p>Because of this, training data isn’t useful for evaluating, as it would suggest that we should always use the largest possible model, when in reality, that model is likely overfitting. Recall, a model that is too complex will overfit. A model that is too simple will underfit. (We’re looking for something in the middle.)</p>
+<p>To overcome this, we’ll use cross-validation as we did with ordinary linear regression, but this time we’ll cross-validate the misclassification rate. To do so, we’ll use the <code>cv.glm()</code> function from the <code>boot</code> library. It takes arguments for the data (in this case training), a model fit via <code>glm()</code>, and <code>K</code>, the number of folds. See <code>?cv.glm</code> for details.</p>
+<p>Previously, for cross-validating RMSE in ordinary linear regression, we used LOOCV. We certainly could do that here. However, with logistic regression, we no longer have the clever trick that would allow use to obtain a LOOCV metric without needing to fit the model <span class="math inline">\(n\)</span> times. So instead, we’ll use 5-fold cross-validation. (5 and 10 fold are the most common in practice.) Instead of leaving a single observation out repeatedly, we’ll leave out a fifth of the data.</p>
+<p>Essentially we’ll repeat the following process 5 times:</p>
+<ul>
+<li>Randomly set aside a fifth of the data (each observation will only be held-out once)</li>
+<li>Train model on remaining data</li>
+<li>Evaluate misclassification rate on held-out data</li>
+</ul>
+<p>The 5-fold cross-validated misclassification rate will be the average of these misclassification rates. By only needing to refit the model 5 times, instead of <span class="math inline">\(n\)</span> times, we will save a lot of computation time.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>boot</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/boot/man/cv.glm.html'>cv.glm</a></span><span class='op'>(</span><span class='va'>spam_trn</span>, <span class='va'>fit_caps</span>, K <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>$</span><span class='va'>delta</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.2166961</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/boot/man/cv.glm.html'>cv.glm</a></span><span class='op'>(</span><span class='va'>spam_trn</span>, <span class='va'>fit_selected</span>, K <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>$</span><span class='va'>delta</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.1587043</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/boot/man/cv.glm.html'>cv.glm</a></span><span class='op'>(</span><span class='va'>spam_trn</span>, <span class='va'>fit_additive</span>, K <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>$</span><span class='va'>delta</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.08684467</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/boot/man/cv.glm.html'>cv.glm</a></span><span class='op'>(</span><span class='va'>spam_trn</span>, <span class='va'>fit_over</span>, K <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>$</span><span class='va'>delta</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.137</code></pre>
+</div>
+<p>Note that we’re suppressing warnings again here. (Now there would be a lot more, since were fitting a total of 20 models.)</p>
+<p>Based on these results, <code>fit_caps</code> and <code>fit_selected</code> are underfitting relative to <code>fit_additive</code>. Similarly, <code>fit_over</code> is overfitting relative to <code>fit_additive</code>. Thus, based on these results, we prefer the classifier created based on the logistic regression fit and stored in <code>fit_additive</code>.</p>
+<p>Going forward, to evaluate and report on the efficacy of this classifier, we’ll use the test dataset. We’re going to take the position that the test data set should <strong>never</strong> be used in training, which is why we used cross-validation within the training dataset to select a model. Even though cross-validation uses hold-out sets to generate metrics, at some point all of the data is used for training.</p>
+<p>To quickly summarize how well this classifier works, we’ll create a confusion matrix.</p>
+<figure>
+<img src="images/confusion.png" alt="Confusion Matrix" /><figcaption aria-hidden="true">Confusion Matrix</figcaption>
+</figure>
+<p>It further breaks down the classification errors into false positives and false negatives.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>make_conf_mat</span> <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>predicted</span>, <span class='va'>actual</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span>predicted <span class='op'>=</span> <span class='va'>predicted</span>, actual <span class='op'>=</span> <span class='va'>actual</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>Let’s explicitly store the predicted values of our classifier on the test dataset.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>spam_tst_pred</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_additive</span>, <span class='va'>spam_tst</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0</span>, 
+                       <span class='st'>"spam"</span>, 
+                       <span class='st'>"nonspam"</span><span class='op'>)</span>
+<span class='va'>spam_tst_pred</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_additive</span>, <span class='va'>spam_tst</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0.5</span>, 
+                       <span class='st'>"spam"</span>, 
+                       <span class='st'>"nonspam"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The previous two lines of code produce the same output, that is the same predictions, since</p>
+<p><span class="math display">\[
+\eta({\bf x}) = 0 \iff p({\bf x}) = 0.5
+\]</span> Now we’ll use these predictions to create a confusion matrix.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='va'>conf_mat_50</span> <span class='op'>=</span> <span class='fu'>make_conf_mat</span><span class='op'>(</span>predicted <span class='op'>=</span> <span class='va'>spam_tst_pred</span>, actual <span class='op'>=</span> <span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>         actual
+predicted nonspam spam
+  nonspam    2057  157
+  spam        127 1260</code></pre>
+</div>
+<p><span class="math display">\[
+\text{Prev} = \frac{\text{P}}{\text{Total Obs}}= \frac{\text{TP + FN}}{\text{Total Obs}}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>spam_tst</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>
+  nonspam      spam 
+0.6064982 0.3935018 </code></pre>
+</div>
+<p>First, note that to be a reasonable classifier, it needs to outperform the obvious classifier of simply classifying all observations to the majority class. In this case, classifying everything as non-spam for a test misclassification rate of 0.3935018</p>
+<p>Next, we can see that using the classifier create from <code>fit_additive</code>, only a total of <span class="math inline">\(137 + 161 = 298\)</span> from the total of 3601 email in the test set are misclassified. Overall, the accuracy in the test set it</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>spam_tst_pred</span> <span class='op'>==</span> <span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.921133</code></pre>
+</div>
+<p>In other words, the test misclassification is</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>spam_tst_pred</span> <span class='op'>!=</span> <span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.07886698</code></pre>
+</div>
+<p>This seems like a decent classifier…</p>
+<p>However, are all errors created equal? In this case, absolutely not. The 137 non-spam emails that were marked as spam (false positives) are a problem. We can’t allow important information, say, a job offer, miss our inbox and get sent to the spam folder. On the other hand, the 161 spam email that would make it to an inbox (false negatives) are easily dealt with, just delete them.</p>
+<p>Instead of simply evaluating a classifier based on its misclassification rate (or accuracy), we’ll define two additional metrics, sensitivity and specificity. Note that these are simply two of many more metrics that can be considered. The <a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity" target="_blank">Wikipedia page for sensitivity and specificity</a> details a large number of metrics that can be derived form a confusion matrix.</p>
+<p><strong>Sensitivity</strong> is essentially the true positive rate. So when sensitivity is high, the number of false negatives is low.</p>
+<p><span class="math display">\[
+\text{Sens} = \text{True Positive Rate} = \frac{\text{TP}}{\text{P}} = \frac{\text{TP}}{\text{TP + FN}}
+\]</span></p>
+<p>Here we have an <code>R</code> function to calculate the sensitivity based on the confusion matrix. Note that this function is good for illustrative purposes, but is easily broken. (Think about what happens if there are no “positives” predicted.)</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>get_sens</span> <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>conf_mat</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>conf_mat</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>conf_mat</span><span class='op'>[</span>, <span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p><strong>Specificity</strong> is essentially the true negative rate. So when specificity is high, the number of false positives is low.</p>
+<p><span class="math display">\[
+\text{Spec} = \text{True Negative Rate} = \frac{\text{TN}}{\text{N}} = \frac{\text{TN}}{\text{TN + FP}}
+\]</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>get_spec</span> <span class='op'>=</span>  <span class='kw'>function</span><span class='op'>(</span><span class='va'>conf_mat</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>conf_mat</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>conf_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<p>We calculate both based on the confusion matrix we had created for our classifier.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_sens</span><span class='op'>(</span><span class='va'>conf_mat_50</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.8892025</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_spec</span><span class='op'>(</span><span class='va'>conf_mat_50</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.9418498</code></pre>
+</div>
+<p>Recall that we had created this classifier using a probability of <span class="math inline">\(0.5\)</span> as a “cutoff” for how observations should be classified. Now we’ll modify this cutoff. We’ll see that by modifying the cutoff, <span class="math inline">\(c\)</span>, we can improve sensitivity or specificity at the expense of the overall accuracy (misclassification rate).</p>
+<p><span class="math display">\[
+\hat{C}(\bf x) = 
+\begin{cases} 
+      1 &amp; \hat{p}({\bf x}) &gt; c \\
+      0 &amp; \hat{p}({\bf x}) \leq c 
+\end{cases}
+\]</span></p>
+<p>Additionally, if we change the cutoff to improve sensitivity, we’ll decrease specificity, and vice versa.</p>
+<p>First let’s see what happens when we lower the cutoff from <span class="math inline">\(0.5\)</span> to <span class="math inline">\(0.1\)</span> to create a new classifier, and thus new predictions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>spam_tst_pred_10</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_additive</span>, <span class='va'>spam_tst</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0.1</span>, 
+                          <span class='st'>"spam"</span>, 
+                          <span class='st'>"nonspam"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>This is essentially <em>decreasing</em> the threshold for an email to be labeled as spam, so far <em>more</em> emails will be labeled as spam. We see that in the following confusion matrix.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='va'>conf_mat_10</span> <span class='op'>=</span> <span class='fu'>make_conf_mat</span><span class='op'>(</span>predicted <span class='op'>=</span> <span class='va'>spam_tst_pred_10</span>, actual <span class='op'>=</span> <span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>         actual
+predicted nonspam spam
+  nonspam    1583   29
+  spam        601 1388</code></pre>
+</div>
+<p>Unfortunately, while this does greatly reduce false negatives, false positives have almost quadrupled. We see this reflected in the sensitivity and specificity.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_sens</span><span class='op'>(</span><span class='va'>conf_mat_10</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.9795342</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_spec</span><span class='op'>(</span><span class='va'>conf_mat_10</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.7248168</code></pre>
+</div>
+<p>This classifier, using <span class="math inline">\(0.1\)</span> instead of <span class="math inline">\(0.5\)</span> has a higher sensitivity, but a much lower specificity. Clearly, we should have moved the cutoff in the other direction. Let’s try <span class="math inline">\(0.9\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>spam_tst_pred_90</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit_additive</span>, <span class='va'>spam_tst</span>, type <span class='op'>=</span> <span class='st'>"response"</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>0.9</span>, 
+                          <span class='st'>"spam"</span>, 
+                          <span class='st'>"nonspam"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>This is essentially <em>increasing</em> the threshold for an email to be labeled as spam, so far <em>fewer</em> emails will be labeled as spam. Again, we see that in the following confusion matrix.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>(</span><span class='va'>conf_mat_90</span> <span class='op'>=</span> <span class='fu'>make_conf_mat</span><span class='op'>(</span>predicted <span class='op'>=</span> <span class='va'>spam_tst_pred_90</span>, actual <span class='op'>=</span> <span class='va'>spam_tst</span><span class='op'>$</span><span class='va'>type</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>         actual
+predicted nonspam spam
+  nonspam    2136  537
+  spam         48  880</code></pre>
+</div>
+<p>This is the result we’re looking for. We have far fewer false positives. While sensitivity is greatly reduced, specificity has gone up.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_sens</span><span class='op'>(</span><span class='va'>conf_mat_90</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.6210303</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>get_spec</span><span class='op'>(</span><span class='va'>conf_mat_90</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] 0.978022</code></pre>
+</div>
+<p>While this is far fewer false positives, is it acceptable though? Still probably not. Also, don’t forget, this would actually be a terrible spam detector today since this is based on data from a very different era of the internet, for a very specific set of people. Spam has changed a lot since 90s! (Ironically, machine learning is probably partially to blame.)</p>
+<p>This chapter has provided a rather quick introduction to classification, and thus, machine learning. For a more complete coverage of machine learning, <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank">An Introduction to Statistical Learning</a> is a highly recommended resource. Additionally, <a href="https://daviddalpiaz.github.io/r4sl/" target="_blank"><code>R</code> for Statistical Learning</a> has been written as a supplement which provides additional detail on how to perform these methods using <code>R</code>. The <a href="https://daviddalpiaz.github.io/r4sl/classification-overview.html" target="_blank">classification</a> and <a href="https://daviddalpiaz.github.io/r4sl/logistic-regression.html" target="_blank">logistic regression</a> chapters might be useful.</p>
+<p>We should note that the code to perform classification using logistic regression is presented in a way that illustrates the concepts to the reader. In practice, you may to prefer to use a more general machine learning pipeline such as <a href="http://topepo.github.io/caret/index.html" target="_blank"><code>caret</code></a> in <code>R</code>. This will streamline processes for creating predictions and generating evaluation metrics.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

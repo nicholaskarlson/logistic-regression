@@ -1,0 +1,17 @@
+---
+title: "About this site"
+description: |
+  Some additional details...
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This information on logistic regression is under Creative Commons, i.e.
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+The information was derived from the Creative Commons document available at
+
+https://daviddalpiaz.github.io/appliedstats/logistic-regression.html
